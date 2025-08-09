@@ -1,0 +1,34 @@
+# --- ENTORNOS Y CACHE ---
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.pklz
+*.pyo
+*.pyd
+*.py.class
+
+# --- ARCHIVOS TEMPORALES ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# --- ARCHIVOS DE STREAMLIT ---
+.streamlit/
+**/.streamlit/
+# Configuración local de Streamlit que no se debe subir
+
+# --- CONFIGURACIÓN LOCAL / IDE ---
+.vscode/
+.idea/
+*.code-workspace
+
+# --- OTROS ARCHIVOS DE PRUEBA ---
+.env
+.DS_Store
+Thumbs.db

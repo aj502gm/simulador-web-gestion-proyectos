@@ -1,0 +1,19 @@
+{
+    "project_name": "Ejemplo de información para pruebas sin tener que estar digitando toda la información",
+    "activities": [
+        {
+            "id": "A1",
+            "name": "Diseño",
+            "duration": { "optimistic": 2, "most_likely": 4, "pessimistic": 6 },
+            "cost": { "optimistic": 500, "most_likely": 800, "pessimistic": 1000 },
+            "dependencies": []
+        },
+        {
+            "id": "A2",
+            "name": "Construcción",
+            "duration": { "optimistic": 10, "most_likely": 14, "pessimistic": 20 },
+            "cost": { "optimistic": 2000, "most_likely": 2500, "pessimistic": 3000 },
+            "dependencies": ["A1"]
+        }
+    ]
+}

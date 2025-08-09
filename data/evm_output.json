@@ -1,0 +1,11 @@
+{
+    "report_date": "2025-08-15",
+    "PV": 1500,
+    "EV": 1200,
+    "AC": 2050,
+    "SPI": 0.8,
+    "CPI": 0.58,
+    "EAC": 5450,
+    "ETC": 3400,
+    "status": { "on_schedule": false, "over_budget": true }
+}
