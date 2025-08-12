@@ -56,3 +56,8 @@ El objetivo es mantener el orden, facilitar el trabajo en paralelo y evitar conf
 - **Modo de uso:**
   - `Comando para alimentarlo` → pip freeze > requirements.txt
   - `Comando para instalar dependencias` → pip install -r requirements.txt
+
+### 9. `file_utils.py`
+
+- **Rol:** Manejo de archivos
+- **Contenido:** Funciones para guardar JSON y CSV; convertir CSV a JSON
