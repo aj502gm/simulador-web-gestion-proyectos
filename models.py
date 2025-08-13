@@ -10,16 +10,16 @@ project_input_schema = {
             "duration": {
                 "optimistic": "number",
                 "most_likely": "number",
-                "pessimistic": "number"
+                "pessimistic": "number",
             },
             "cost": {
                 "optimistic": "number",
                 "most_likely": "number",
-                "pessimistic": "number"
+                "pessimistic": "number",
             },
-            "dependencies": ["string"]
+            "dependencies": ["string"],
         }
-    ]
+    ],
 }
 
 # Formato para resultados Monte Carlo
@@ -28,5 +28,5 @@ montecarlo_output_schema = {
         {"run_id": "number", "total_duration": "number", "total_cost": "number"}
     ],
     "expected_duration": "number",
-    "expected_cost": "number"
+    "expected_cost": "number",
 }
