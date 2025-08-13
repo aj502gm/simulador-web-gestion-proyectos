@@ -3,17 +3,32 @@ import streamlit as st
 
 from file_utils import validate_csv
 
-#Componentes generales de Streamlit que se utilizarán en el proyecto.
+# Componentes generales de Streamlit que se utilizarán en el proyecto.
 
-#Ejemplo de uso
+# Ejemplo de uso
+
 
 def project_input_form(default_name="Proyecto"):
+    """
+    Muestra un formulario de entrada para definir un proyecto y subir un archivo CSV con las tareas.
+
+    Args:
+        default_name (str): Nombre por defecto del proyecto.
+
+    Returns:
+        tuple: Contiene el nombre del proyecto y el archivo JSON.
+    """
+
     st.subheader("Definición del Proyecto")
-    
+
+    # Creación del formulario de entrada
     with st.form(key="input_form"):
         name = st.text_input(label="Nombre del proyecto", value=default_name)
         file = st.file_uploader(label="Subir archivo .csv", type=["csv"])
-        st.markdown("""
+
+        # Información sobre el formato esperado del CSV
+        st.markdown(
+            """
                     **Formato esperado del archivo CSV:**
 
                     ```csv
@@ -22,18 +37,35 @@ def project_input_form(default_name="Proyecto"):
                     A2,Construcción,10,14,20,2000,2500,3000,A1
                     A3,Limpieza,5,6,10,100,150,200,"A1,A2"
                     ```
-                    """)
+                    """
+        )
 
         send = st.form_submit_button(label="Subir")
 
+    # Procesamiento del archivo después de enviar el formulario
     if send:
-        ...
-    
+        if file is not None:
+            try:
+                df = pd.read_csv(file)
+                valid, msg = validate_csv(df)
+                if valid:
+                    st.success(msg)
+                    st.dataframe(df.head())
+                else:
+                    st.error(msg)
+            except Exception as e:
+                st.error(f"Error al leer el CSV: {e}")
+
+        else:
+            st.warning("No se ha seleccionado ningún archivo CSV.")
+
     return name, file
+
 
 def montecarlo_results_chart(df):
     st.subheader("Resultados de Simulación Monte Carlo")
     st.bar_chart(df)
+
 
 def evm_metrics_display(metrics):
     st.subheader("Métricas EVM")

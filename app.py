@@ -1,15 +1,15 @@
-#Archivo principal del proyecto. Controla el flujo y la lógica de los elementos.
+# Archivo principal del proyecto. Controla el flujo y la lógica de los elementos.
 import streamlit as st
 import montecarlo
 import evm
 import ui.ui as ui
 
 # Configuraciones de pagina
-st.set_page_config(page_title="Gestion de Proyectos",
-                   page_icon=":bar_chart:",
-                   layout="wide")
+st.set_page_config(
+    page_title="Gestion de Proyectos", page_icon=":bar_chart:", layout="wide"
+)
 
-#Ejemplo de uso
+# Ejemplo de uso
 st.title("Simulador de Proyectos con Riesgo y EVM")
 
 # Formulario de entrada
