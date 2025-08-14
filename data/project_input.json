@@ -1,19 +1,55 @@
 {
-    "project_name": "Ejemplo de información para pruebas sin tener que estar digitando toda la información",
+    "project_name": "Proyecto",
     "activities": [
         {
             "id": "A1",
             "name": "Diseño",
-            "duration": { "optimistic": 2, "most_likely": 4, "pessimistic": 6 },
-            "cost": { "optimistic": 500, "most_likely": 800, "pessimistic": 1000 },
+            "duration": {
+                "optimistic": 2,
+                "most_likely": 4,
+                "pessimistic": 6
+            },
+            "cost": {
+                "optimistic": 500,
+                "most_likely": 800,
+                "pessimistic": 1000
+            },
             "dependencies": []
         },
         {
             "id": "A2",
             "name": "Construcción",
-            "duration": { "optimistic": 10, "most_likely": 14, "pessimistic": 20 },
-            "cost": { "optimistic": 2000, "most_likely": 2500, "pessimistic": 3000 },
-            "dependencies": ["A1"]
+            "duration": {
+                "optimistic": 10,
+                "most_likely": 14,
+                "pessimistic": 20
+            },
+            "cost": {
+                "optimistic": 2000,
+                "most_likely": 2500,
+                "pessimistic": 3000
+            },
+            "dependencies": [
+                "A1"
+            ]
+        },
+        {
+            "id": "A3",
+            "name": "Limpieza",
+            "duration": {
+                "optimistic": 5,
+                "most_likely": 6,
+                "pessimistic": 10
+            },
+            "cost": {
+                "optimistic": 100,
+                "most_likely": 150,
+                "pessimistic": 200
+            },
+            "dependencies": [
+                "A1",
+                "A2"
+            ]
         }
     ]
 }
