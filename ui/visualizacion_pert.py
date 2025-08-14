@@ -4,18 +4,7 @@ import tempfile
 import os
 import re
 
-MOCK_TASKS = {
-    "A": {"duracion": 2, "deps": []},
-    "B": {"duracion": 4, "deps": ["A"]},
-    "C": {"duracion": 5, "deps": ["B"]},
-    "D": {"duracion": 3, "deps": ["B"]},
-    "E": {"duracion": 2, "deps": ["C", "D"]},
-    "F": {"duracion": 3, "deps": ["E"]},
-    "G": {"duracion": 1, "deps": ["F"]},
-    "H": {"duracion": 5, "deps": ["D"]}
-}
-
-def render_pert_tasks(tasks: dict) -> tuple[str, list]:
+def render_pert_tasks(tasks: any) -> tuple[str, list]:
     """
    GIVEN AN OBJECT OF TASKS, CREATES A PERT GRAPH AND SHOWS
    THE CRITICAL PATH.
@@ -23,14 +12,14 @@ def render_pert_tasks(tasks: dict) -> tuple[str, list]:
     # START GRAPH
     G = nx.DiGraph()
     # CREATE ALL NODES
-    for tarea, data in tasks.items():
+    for data in tasks['activities']:
         G.add_node(
-            tarea,
-            duracion=data["duracion"],
-            title=f"Tarea {tarea}<br>Duración: {data['duracion']} días"
+            data['id'],
+            duracion=data['duration']["most_likely"],
+            title=f"Tarea {data["name"]}<br>Duración: {data["duration"]["most_likely"]} días"
         )
-        for dep in data["deps"]:
-            G.add_edge(dep, tarea)
+        for dep in data["dependencies"]:
+            G.add_edge(dep, data['id'])
 
     # CRITICAL PATH
     longest_path = nx.dag_longest_path(G, weight='duracion')

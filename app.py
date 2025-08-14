@@ -3,8 +3,6 @@ import streamlit as st
 import montecarlo
 import evm
 import ui.ui as ui
-from ui.visualizacion_pert import render_pert_tasks, MOCK_TASKS
-import streamlit.components.v1 as components
 
 # Configuraciones de pagina
 st.set_page_config(page_title="Gestion de Proyectos",
@@ -39,14 +37,6 @@ name, activities_json = ui.project_input_form()
 if st.button("Ejecutar Simulación"):
     mc_results = montecarlo.run_simulation(activities_json)
     ui.montecarlo_results_chart(mc_results)
-
-# ------------------ PERT VISUALIZATION EXAMPLE ------------------ 
-st.title("Visualización de PERT")
-html_graph, critical_path = render_pert_tasks(MOCK_TASKS)
-st.markdown(f"**Ruta crítica:** {' → '.join(critical_path)}")
-duracion_total = sum(MOCK_TASKS[t]['duracion'] for t in critical_path)
-st.markdown(f"**Duración total:** {duracion_total} días")
-components.html(html_graph, width=None, height=700, scrolling=True)
 # ------------------------------------------------------------------------
 
 if st.button("Calcular EVM"):
