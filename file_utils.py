@@ -71,12 +71,12 @@ def validate_csv(df):
     return True, "Archivo CSV válido."
 
 
-def csv_json(df, project_name, json_filename="project_input.json"):
+def csv_json(data_frame, project_name, json_filename="project_input.json"):
     """
     Convierte un dataframe de actividades en un JSON con la estructura de proyecto.
 
     Args:
-        df (pd.Dataframe): Dataframe a convertir en JSON.
+        data_frame (pd.Dataframe): Dataframe a convertir en JSON.
         project_name (str): Nombre del proyecto.
         json_filename (str): Nombre del archivo JSON de salida (por defecto 'project_input.json').
 
@@ -86,7 +86,7 @@ def csv_json(df, project_name, json_filename="project_input.json"):
 
     # Transformar cada fila en la estructura deseada
     activities = []
-    for _, row in df.iterrows():
+    for _, row in data_frame.iterrows():
         dependencies = []
         if pd.notna(row["dependencies"]) and row["dependencies"] != "":
             dependencies = [dep.strip() for dep in row["dependencies"].split(",")]

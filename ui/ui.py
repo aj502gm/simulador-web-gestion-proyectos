@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from file_utils import validate_csv
+from file_utils import csv_json, validate_csv
 
 # Componentes generales de Streamlit que se utilizarán en el proyecto.
 
@@ -25,6 +25,7 @@ def project_input_form(default_name="Proyecto"):
     with st.form(key="input_form"):
         name = st.text_input(label="Nombre del proyecto", value=default_name)
         file = st.file_uploader(label="Subir archivo .csv", type=["csv"])
+        df = None
 
         # Información sobre el formato esperado del CSV
         st.markdown(
@@ -58,6 +59,8 @@ def project_input_form(default_name="Proyecto"):
 
         else:
             st.warning("No se ha seleccionado ningún archivo CSV.")
+
+        file = csv_json(data_frame=df, project_name=name)
 
     return name, file
 
