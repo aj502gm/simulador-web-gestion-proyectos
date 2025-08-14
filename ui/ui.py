@@ -1,7 +1,8 @@
 import pandas as pd
 import streamlit as st
-
+from ui.visualizacion_pert import render_pert_tasks
 from file_utils import csv_json, validate_csv
+import streamlit.components.v1 as components
 
 # Componentes generales de Streamlit que se utilizarán en el proyecto.
 
@@ -61,6 +62,11 @@ def project_input_form(default_name="Proyecto"):
             st.warning("No se ha seleccionado ningún archivo CSV.")
 
         file = csv_json(data_frame=df, project_name=name)
+
+        st.title("Visualización de PERT")
+        html_graph, critical_path = render_pert_tasks(file)
+        st.markdown(f"**Ruta crítica:** {' → '.join(critical_path)}")
+        components.html(html_graph, width=None, height=700, scrolling=True)
 
     return name, file
 
