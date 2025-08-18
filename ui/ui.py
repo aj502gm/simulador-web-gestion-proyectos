@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 # Ejemplo de uso
 
 
-def project_input_form(default_name="Proyecto"):
+def project_input_form(default_name="Proyecto", load_from_data_csv = False):
     """
     Muestra un formulario de entrada para definir un proyecto y subir un archivo CSV con las tareas.
 
@@ -26,6 +26,7 @@ def project_input_form(default_name="Proyecto"):
     with st.form(key="input_form"):
         name = st.text_input(label="Nombre del proyecto", value=default_name)
         file = st.file_uploader(label="Subir archivo .csv", type=["csv"])
+        critical_path = []
         df = None
 
         # Información sobre el formato esperado del CSV
@@ -46,9 +47,13 @@ def project_input_form(default_name="Proyecto"):
 
     # Procesamiento del archivo después de enviar el formulario
     if send:
-        if file is not None:
+        if file is not None or load_from_data_csv:
             try:
-                df = pd.read_csv(file)
+                if file is not None:
+                    df = pd.read_csv(file)
+                elif load_from_data_csv:
+                    df = pd.read_csv("data/project_input.csv")
+
                 valid, msg = validate_csv(df)
                 if valid:
                     st.success(msg)
@@ -68,14 +73,4 @@ def project_input_form(default_name="Proyecto"):
         st.markdown(f"**Ruta crítica:** {' → '.join(critical_path)}")
         components.html(html_graph, width=None, height=700, scrolling=True)
 
-    return name, file
-
-
-def montecarlo_results_chart(df):
-    st.subheader("Resultados de Simulación Monte Carlo")
-    st.bar_chart(df)
-
-
-def evm_metrics_display(metrics):
-    st.subheader("Métricas EVM")
-    st.json(metrics)
+    return name, file, critical_path

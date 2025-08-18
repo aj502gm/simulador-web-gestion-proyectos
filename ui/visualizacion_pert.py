@@ -16,7 +16,7 @@ def render_pert_tasks(tasks: any) -> tuple[str, list]:
         G.add_node(
             data['id'],
             duracion=data['duration']["most_likely"],
-            title=f"Tarea {data["name"]}<br>Duración: {data["duration"]["most_likely"]} días"
+            title=f"Tarea {data['name']}<br>Duración: {data['duration']['most_likely']} días"
         )
         for dep in data["dependencies"]:
             G.add_edge(dep, data['id'])

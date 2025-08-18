@@ -47,7 +47,40 @@
                 "pessimistic": 200
             },
             "dependencies": [
-                "A1",
+                "A1"
+            ]
+        },
+        {
+            "id": "A4",
+            "name": "Mantenimiento",
+            "duration": {
+                "optimistic": 1,
+                "most_likely": 2,
+                "pessimistic": 3
+            },
+            "cost": {
+                "optimistic": 100,
+                "most_likely": 150,
+                "pessimistic": 200
+            },
+            "dependencies": [
+                "A3"
+            ]
+        },
+        {
+            "id": "A5",
+            "name": "Entrega",
+            "duration": {
+                "optimistic": 1,
+                "most_likely": 2,
+                "pessimistic": 3
+            },
+            "cost": {
+                "optimistic": 100,
+                "most_likely": 150,
+                "pessimistic": 200
+            },
+            "dependencies": [
                 "A2"
             ]
         }
