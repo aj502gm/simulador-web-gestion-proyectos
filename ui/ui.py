@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 # Ejemplo de uso
 
 
-def project_input_form(default_name="Proyecto", load_from_data_csv = False):
+def project_input_form(default_name="Proyecto", load_from_data_csv=False):
     """
     Muestra un formulario de entrada para definir un proyecto y subir un archivo CSV con las tareas.
 
@@ -28,20 +28,6 @@ def project_input_form(default_name="Proyecto", load_from_data_csv = False):
         file = st.file_uploader(label="Subir archivo .csv", type=["csv"])
         critical_path = []
         df = None
-
-        # Información sobre el formato esperado del CSV
-        st.markdown(
-            """
-                    **Formato esperado del archivo CSV:**
-
-                    ```csv
-                    id,name,optimistic_duration,most_likely_duration,pessimistic_duration,optimistic_cost,most_likely_cost,pessimistic_cost,dependencies
-                    A1,Diseño,2,4,6,500,800,1000,
-                    A2,Construcción,10,14,20,2000,2500,3000,A1
-                    A3,Limpieza,5,6,10,100,150,200,"A1,A2"
-                    ```
-                    """
-        )
 
         send = st.form_submit_button(label="Subir")
 
