@@ -6,6 +6,7 @@ Funciones para el manejo de archivos.
 import json
 import os
 import streamlit as st
+import networkx as nx
 import pandas as pd
 
 # Columnas esperadas en el archivo CSV
@@ -21,10 +22,8 @@ EXPECTED_COLUMNS = [
     "dependencies",
 ]
 
-# TODO: Validar error al subir un archivo (error desconocido)
-# TODO: Validar formato correcto (columnas, tipo de dato, etc)
+
 # TODO: Validar dependencias (no dependencias, circulares, que el grafo tenga fin, tareas con duracion validas)
-# TODO: Mostrar los errores de forma descriptiva en alguna parte de la web (si es un error desconocido, mostrar mensaje generico, caso contrario, un mensaje especifico)
 
 
 def validate_csv(df):
@@ -37,15 +36,16 @@ def validate_csv(df):
     Returns:
         tuple: (bool, str) donde el booleano indica si es válido y el string es un mensaje.
     """
+    errors = []
 
     # Verificar columnas faltantes o inesperadas
     missing_cols = [col for col in EXPECTED_COLUMNS if col not in df.columns]
     extra_cols = [col for col in df.columns if col not in EXPECTED_COLUMNS]
 
     if missing_cols:
-        return False, f"Faltan columnas en el CSV: {missing_cols}"
+        errors.append(f"Faltan columnas en el CSV: {', '.join(missing_cols)}")
     if extra_cols:
-        return False, f"Columnas inesperadas en el CSV: {extra_cols}"
+        errors.append(f"Columnas inesperadas en el CSV: {', '.join(extra_cols)}")
 
     # Columnas que deben ser numéricas
     num_cols = [
@@ -58,27 +58,54 @@ def validate_csv(df):
     ]
 
     for col in num_cols:
-        if not pd.api.types.is_numeric_dtype(df[col]):
-            return False, f"La columna '{col}' debe contener valores numéricos."
+        try:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+        except Exception:
+            errors.append(f"No se pudo convertir la columna '{col}' a numérica.")
+            continue
+        if df[col].isna().any():
+            errors.append(f"La columna '{col}' contiene valores no numéricos.")
         if (df[col] < 0).any():
-            return False, f"La columna '{col}' no debe contener valores negativos."
+            errors.append(f"La columna '{col}' no debe contener valores negativos.")
 
     # Verificar duplicados en 'id'
     if df["id"].duplicated().any():
-        return False, "La columna 'id' tiene valores duplicados."
+        errors.append("La columna 'id' tiene valores duplicados.")
 
     # Validar que las dependencias existan en los IDs
-    all_ids = set(df["id"])
+    all_ids = set(df["id"].astype(str))
+    invalid_deps = []
     for dep in df["dependencies"].dropna():
         deps = [d.strip() for d in dep.split(",") if d.strip()]
+        invalid_deps.extend([d for d in deps if d not in all_ids])
+    if invalid_deps:
+        errors.append(f"Dependencias inválidas: {set(invalid_deps)}")
 
-        for d in deps:
-            if d not in all_ids:
-                return (
-                    False,
-                    f"Dependencia '{d}' no corresponde a ningún 'id'.",
-                )
+    # Validar dependencias circulares
+    G = nx.DiGraph()
+    for _, row in df.iterrows():
+        activity_id = str(row["id"])
+        G.add_node(activity_id)
+        if pd.notna(row["dependencies"]) and row["dependencies"] != "":
+            for dep in row["dependencies"].split(","):
+                dep = dep.strip()
+                G.add_edge(dep, activity_id)
 
+    try:
+        cycle = nx.find_cycle(G, orientation="original")
+        errors.append(f"Ciclo detectado en dependencias: {cycle}")
+    except nx.NetworkXNoCycle:
+        pass
+
+    # Validar si tiene tarea final
+    final_task = [n for n in G.nodes if G.out_degree(n) == 0]
+    if not final_task:
+        errors.append(
+            "No hay tareas finales en el proyecto (todas tienen dependientes)."
+        )
+
+    if errors:
+        return False, " | ".join(errors)
     return True, "Archivo CSV válido."
 
 
@@ -131,7 +158,6 @@ def csv_json(data_frame, project_name, json_filename="project_input.json"):
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(project_json, f, indent=4, ensure_ascii=False)
 
-    print(f"JSON guardado en: {json_path}")
     return project_json
 
 
