@@ -1,10 +1,13 @@
 # Archivo principal del proyecto. Controla el flujo y la lógica de los elementos.
-import streamlit as st
-import montecarlo
 import evm
+import montecarlo
+import os
+import pandas as pd
+import streamlit as st
 import ui.ui as ui
-import ui.ui_montecarlo as ui_montecarlo
 import ui.ui_evm as ui_evm
+import ui.ui_montecarlo as ui_montecarlo
+from file_utils import get_data, convert_for_download
 
 # Configuraciones de pagina
 st.set_page_config(
@@ -50,10 +53,25 @@ st.markdown(
             """
 )
 
-# TODO: Implement csv download template
-# Boton para descargar CSV template
-csv_template = st.button(label="Descargar .csv ejemplo")
 
+@st.fragment
+def download_file():
+    """
+    Fragmento de Streamlit que renderiza un botón de descarga
+    para un DataFrame cargado desde el módulo file_utils.
+    """
+    df = get_data()
+    csv = convert_for_download(df)
+    st.download_button(
+        label="Descargar CSV ejemplo",
+        data=csv,
+        file_name="project_input.csv",
+        mime="text/csv",
+        icon=":material/download:",
+    )
+
+
+download_file()
 
 # Simulación Montecarlo
 if critical_path:

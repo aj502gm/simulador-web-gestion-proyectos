@@ -1,5 +1,11 @@
+"""
+Módulo: file_utils
+Funciones para el manejo de archivos.
+"""
+
 import json
 import os
+import streamlit as st
 import pandas as pd
 
 # Columnas esperadas en el archivo CSV
@@ -127,3 +133,41 @@ def csv_json(data_frame, project_name, json_filename="project_input.json"):
 
     print(f"JSON guardado en: {json_path}")
     return project_json
+
+
+@st.cache_data
+def get_data(path: str = "data/example_input.csv"):
+    """
+    Lee un archivo CSV y lo devuelve como un DataFrame de pandas.
+
+    Parameters
+    ----------
+    path : str, optional
+        Ruta al archivo CSV. Por defecto 'data/example_input.csv'.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Datos cargados desde el archivo CSV.
+    """
+    df = pd.read_csv(path)
+    return df
+
+
+@st.cache_data
+def convert_for_download(df: pd.DataFrame) -> bytes:
+    """
+    Convierte un DataFrame en una representación CSV codificada en UTF-8,
+    lista para ser descargada en un botón de Streamlit.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame a convertir.
+
+    Returns
+    -------
+    bytes
+        Contenido en formato CSV codificado como UTF-8 con BOM.
+    """
+    return df.to_csv(index=False, encoding="utf-8-sig").encode("utf-8-sig")
