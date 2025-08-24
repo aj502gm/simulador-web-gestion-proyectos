@@ -15,6 +15,7 @@ def project_input_form(default_name="Proyecto", load_from_data_csv=False):
 
     Args:
         default_name (str): Nombre por defecto del proyecto.
+        load_from_data_csv (bool):
 
     Returns:
         tuple: Contiene el nombre del proyecto y el archivo JSON.
@@ -54,6 +55,7 @@ def project_input_form(default_name="Proyecto", load_from_data_csv=False):
 
         file = csv_json(data_frame=df, project_name=name)
 
+        # TODO: Moverlo a app.py
         st.title("Visualización de PERT")
         html_graph, critical_path = render_pert_tasks(file)
         st.markdown(f"**Ruta crítica:** {' → '.join(critical_path)}")

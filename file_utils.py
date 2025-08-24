@@ -15,6 +15,11 @@ EXPECTED_COLUMNS = [
     "dependencies",
 ]
 
+# TODO: Validar error al subir un archivo (error desconocido)
+# TODO: Validar formato correcto (columnas, tipo de dato, etc)
+# TODO: Validar dependencias (no dependencias, circulares, que el grafo tenga fin, tareas con duracion validas)
+# TODO: Mostrar los errores de forma descriptiva en alguna parte de la web (si es un error desconocido, mostrar mensaje generico, caso contrario, un mensaje especifico)
+
 
 def validate_csv(df):
     """
