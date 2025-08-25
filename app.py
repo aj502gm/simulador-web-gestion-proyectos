@@ -4,7 +4,6 @@ import montecarlo
 import evm
 import ui.ui as ui
 import ui.ui_montecarlo as ui_montecarlo
-import ui.ui_evm as ui_evm
 
 # Configuraciones de pagina
 st.set_page_config(page_title="Gestion de Proyectos",

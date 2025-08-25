@@ -1,6 +1,6 @@
 import streamlit as st
-import matplotlib.pyplot as plt
-
+from ui.plots import plot_histogram
+import pandas as pd
 def show_simulation_results(duraciones_result, costos_result):
     st.header("📊 Resultados de la Simulación Monte Carlo")
 
@@ -12,12 +12,7 @@ def show_simulation_results(duraciones_result, costos_result):
     st.write(f"Máximo: {duraciones_result['maximo']:.2f}")
     st.write(f"Desviación Estándar: {duraciones_result['desviacion_standar']:.2f}")
 
-    fig1, ax1 = plt.subplots(figsize=(4,2))  # ancho=6, alto=4 (en pulgadas)
-    ax1.hist(duraciones_result["duraciones"], bins=20, edgecolor="black")
-    ax1.set_title("Distribución de Duraciones")
-    ax1.set_xlabel("Duración Total del Proyecto")
-    ax1.set_ylabel("Frecuencia")
-    st.pyplot(fig1, use_container_width=False)
+    plot_histogram(data=duraciones_result["duraciones"], title="Distribución de Duraciones", x_title="Duración Total del Proyecto", y_label="Frecuencia", bins=20)
 
     # --- Costos ---
     st.subheader("Costos")
@@ -27,9 +22,4 @@ def show_simulation_results(duraciones_result, costos_result):
     st.write(f"Máximo: ${costos_result['maximo']:.2f}")
     st.write(f"Desviación Estándar: ${costos_result['desviacion_standar']:.2f}")
 
-    fig2, ax2 = plt.subplots(figsize=(4,2))
-    ax2.hist(costos_result["costos"], bins=20, edgecolor="black", color="green")
-    ax2.set_title("Distribución de Costos")
-    ax2.set_xlabel("Costo Total del Proyecto")
-    ax2.set_ylabel("Frecuencia")
-    st.pyplot(fig2, use_container_width=False)
+    plot_histogram(data=costos_result["costos"], title="Distribución de Costos", x_title="Costos total del Proyecto", y_label="Frecuencia", bins=20, edgecolor='Green')
