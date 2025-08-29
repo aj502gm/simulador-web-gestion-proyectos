@@ -2,5 +2,5 @@ id,name,optimistic_duration,most_likely_duration,pessimistic_duration,optimistic
 A1,Diseño,2,4,6,500,800,1000
 A2,Construcción,10,14,20,2000,2500,3000,"A1"
 A3,Limpieza,5,6,10,100,150,200,"A1"
-A4,Mantenimiento,1,2,3,100,150,200,"A3"
+A4,Mantenimiento,1,2,3,100,150,200,"A2,A3"
 A5,Entrega,1,2,3,100,150,200,"A2"

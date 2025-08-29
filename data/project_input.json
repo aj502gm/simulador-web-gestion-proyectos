@@ -64,6 +64,7 @@
                 "pessimistic": 200
             },
             "dependencies": [
+                "A2",
                 "A3"
             ]
         },
@@ -81,7 +82,7 @@
                 "pessimistic": 200
             },
             "dependencies": [
-                "A2"
+                "A4"
             ]
         }
     ]
