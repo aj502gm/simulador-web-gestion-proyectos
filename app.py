@@ -9,6 +9,7 @@ import ui.ui_evm as ui_evm
 import ui.ui_montecarlo as ui_montecarlo
 from file_utils import get_data, convert_for_download
 
+
 # Configuraciones de pagina
 st.set_page_config(
     page_title="Gestion de Proyectos", page_icon=":bar_chart:", layout="wide"
