@@ -75,13 +75,24 @@ def download_file():
 download_file()
 
 # Simulación Montecarlo
-if critical_path:
-    duraciones_result, costos_result = montecarlo.run_simulation(
-        activities_json, critical_path
-    )
-    ui_montecarlo.show_simulation_results(duraciones_result, costos_result)
-# ------------------------------------------------------------------------
+if "montecarlo_done" not in st.session_state:
+    st.session_state.montecarlo_done = False
+    st.session_state.duraciones_result = None
+    st.session_state.costos_result = None
 
+if critical_path and not st.session_state.montecarlo_done:
+    # Ejecutar la simulación una sola vez
+    duraciones_result, costos_result = montecarlo.run_simulation(activities_json, critical_path)
+    st.session_state.duraciones_result = duraciones_result
+    st.session_state.costos_result = costos_result
+    st.session_state.montecarlo_done = True
+
+# Mostrar resultados solo si existen
+if st.session_state.montecarlo_done:
+    ui_montecarlo.show_simulation_results(
+        st.session_state.duraciones_result, 
+        st.session_state.costos_result
+    )
 
 # EVM
 # if critical_path:
