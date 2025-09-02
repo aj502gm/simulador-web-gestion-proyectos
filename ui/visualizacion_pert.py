@@ -1,25 +1,42 @@
 import networkx as nx
 from pyvis.network import Network
-import tempfile
-import os
-import re
+import tempfile, os, re
 
-def render_pert_tasks(tasks: any) -> tuple[str, list]:
+def render_pert_tasks(tasks: any) -> tuple[str, list, list]:
     """
-   GIVEN AN OBJECT OF TASKS, CREATES A PERT GRAPH AND SHOWS
-   THE CRITICAL PATH.
+    GIVEN AN OBJECT OF TASKS, CREATES A PERT GRAPH AND SHOWS
+    THE CRITICAL PATH, INCLUDING Inicio Proyecto AND Final del Proyecto NODES.
     """
+
     # START GRAPH
     G = nx.DiGraph()
-    # CREATE ALL NODES
+    tasks_list = dict()
+
     for data in tasks['activities']:
         G.add_node(
             data['id'],
             duracion=data['duration']["most_likely"],
             title=f"Tarea {data['name']}<br>Duración: {data['duration']['most_likely']} días"
         )
-        for dep in data["dependencies"]:
+        tasks_list[data['id']] = {
+            'task': data['name'],
+            'BAC': (float(data['cost']['optimistic']) + 4*float(data['cost']['most_likely']) + float(data['cost']['pessimistic']) / 6)
+        }
+        for dep in data.get("dependencies", []):
             G.add_edge(dep, data['id'])
+
+    # START AND END TASKS
+    G.add_node("Inicio Proyecto", duracion=0, title="Inicio del proyecto")
+    G.add_node("Final del Proyecto", duracion=0, title="Fin del proyecto")
+
+    for node in tasks['activities']:
+        if not node.get("dependencies"):
+            G.add_edge("Inicio Proyecto", node['id'])
+
+    for node in tasks['activities']:
+        node_id = node['id']
+        if G.out_degree(node_id) == 0:
+            G.add_edge(node_id, "Final del Proyecto")
 
     # CRITICAL PATH
     longest_path = nx.dag_longest_path(G, weight='duracion')
@@ -32,20 +49,15 @@ def render_pert_tasks(tasks: any) -> tuple[str, list]:
         bgcolor="#222",
         font_color="white"
     )
-    pos = None
 
-    # STYLE NODES AND HIGHLIGHT CRITICAL PATH
+    # TASK NODES
     for node in G.nodes(data=True):
         nid = node[0]
         title = node[1]["title"]
         color = "red" if nid in longest_path else "#97C2FC"
-        net.add_node(
-            nid,
-            label=nid,
-            title=title,
-            color=color,
-            borderWidth=3
-        )
+        if nid == "Inicio Proyecto" or nid == "Final del Proyecto":
+            color = "red"
+        net.add_node(nid, label=nid, title=title, color=color, borderWidth=3)
 
     # SHOW ORDER AND DEPENDENCIES
     for edge in G.edges():
@@ -68,4 +80,4 @@ def render_pert_tasks(tasks: any) -> tuple[str, list]:
         html_content
     )
 
-    return html_content, longest_path
+    return html_content, longest_path, tasks_list
