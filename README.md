@@ -92,5 +92,5 @@ Este proyecto consiste en un simulador web para el cumplimiento, métricas y des
 ## Contacto de los desarolladores
 
 1. Jorge Anibal Velasquez Folgar - jorge_velasquez@galileo.edu
-2. Rene Andres Tarot Palma - rene.tarot@galileo.edu
+2. René Andrés Tarot Palma - rene.tarot@galileo.edu
 3. Andrés de Jesús Gonzalez Melgar - 20004118@galileo.edu
