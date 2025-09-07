@@ -112,3 +112,58 @@ def plot_s_curve(df: pd.DataFrame, x_column: str, y_label: str, title: str):
     ax.grid(True)
 
     st.pyplot(fig, use_container_width=True)
+
+def plot_s_curve_with_labels(df: pd.DataFrame, x_column: str, y_label: str, title: str):
+    fig, ax = plt.subplots()
+
+    x_labels = df[x_column].values
+
+    for col in df.columns:
+        if col == x_column:
+            continue
+        y_data = pd.to_numeric(df[col], errors='coerce').dropna().values  
+
+        # Recortar valores constantes al final
+        y_data = trim_constant_tail(y_data)
+        x_data = np.arange(len(y_data))  
+
+        if len(y_data) < 3 or len(np.unique(y_data)) < 3:
+            # Demasiado pocos datos para ajustar sigmoide → solo graficamos los puntos
+            ax.plot(x_data, y_data, marker='o', linestyle='-', label=f"{col} - Datos (sin curva)")
+            continue
+
+        try:
+            popt, _ = curve_fit(sigmoid, x_data, y_data, p0=[max(y_data), 1, np.median(x_data)])
+            x_fit = np.linspace(min(x_data), max(x_data), 100)
+            y_fit = sigmoid(x_fit, *popt)
+            ax.plot(x_fit, y_fit, label=f"{col} - Curva S")
+            ax.scatter(x_data, y_data, marker='o', label=f"{col} - Datos")
+        except Exception as e:
+            st.warning(f"No se pudo ajustar la curva para {col}: {e}")
+
+    # Ajustar etiquetas del eje X al largo real
+    ax.set_xticks(np.arange(len(x_labels[:len(x_data)])))
+    ax.set_xticklabels(x_labels[:len(x_data)], rotation=45, ha="right")
+
+    ax.set_xlabel(x_column)
+    ax.set_ylabel(y_label)
+    ax.set_title(title)
+    ax.legend()
+    ax.grid(True)
+
+    st.pyplot(fig, use_container_width=True)
+
+
+
+def trim_constant_tail(values: np.ndarray) -> np.ndarray:
+    """
+    Recorta los valores al eliminar la parte final constante (cola plana).
+    """
+    if len(values) == 0:
+        return values
+    last_change_idx = len(values) - 1
+    for i in range(len(values) - 2, -1, -1):
+        if values[i] != values[i + 1]:
+            last_change_idx = i + 1
+            break
+    return values[: last_change_idx + 1]

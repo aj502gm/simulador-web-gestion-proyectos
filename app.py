@@ -4,6 +4,7 @@ import montecarlo
 import os
 import pandas as pd
 import streamlit as st
+from ui.metrics_table import evm_table
 import ui.ui as ui
 import ui.ui_evm as ui_evm
 import ui.ui_montecarlo as ui_montecarlo
@@ -39,20 +40,6 @@ st.title("Simulador de Proyectos con Riesgo y EVM")
 
 # Formulario de entrada
 name, activities_json, critical_path = ui.project_input_form(load_from_data_csv=True)
-
-# Información sobre el formato esperado del CSV
-st.markdown(
-    """
-            **Formato esperado del archivo CSV:**
-
-            ```csv
-            id,name,optimistic_duration,most_likely_duration,pessimistic_duration,optimistic_cost,most_likely_cost,pessimistic_cost,dependencies
-            A1,Diseño,2,4,6,500,800,1000,
-            A2,Construcción,10,14,20,2000,2500,3000,A1
-            A3,Limpieza,5,6,10,100,150,200,"A1,A2"
-            ```
-            """
-)
 
 
 @st.fragment
@@ -92,6 +79,16 @@ if st.session_state.montecarlo_done:
     ui_montecarlo.show_simulation_results(
         st.session_state.duraciones_result, 
         st.session_state.costos_result
+    )
+
+    
+if st.session_state.tasks:
+    evm_table(st.session_state.tasks)
+
+if "evm_totals" in st.session_state:
+    projection_results = montecarlo.run_projection_simulation(st.session_state.evm_totals)
+    ui_montecarlo.show_projection_results(
+        projection_results
     )
 
 # EVM

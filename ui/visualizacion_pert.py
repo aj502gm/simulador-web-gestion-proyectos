@@ -1,6 +1,7 @@
 import networkx as nx
 from pyvis.network import Network
 import tempfile, os, re
+import streamlit as st
 
 def render_pert_tasks(tasks: any) -> tuple[str, list, list]:
     """
@@ -13,14 +14,21 @@ def render_pert_tasks(tasks: any) -> tuple[str, list, list]:
     tasks_list = dict()
 
     for data in tasks['activities']:
+        costo_media_pert = (float(data['cost']['optimistic']) + 4*float(data['cost']['most_likely']) + float(data['cost']['pessimistic'])) / 6
+
+        duracion_media_pert = (float(data['duration']['optimistic']) + 4*float(data['duration']['most_likely']) + float(data['duration']['pessimistic'])) / 6
+
+        data['duration']['media_pert'] = duracion_media_pert
+        data['cost']['media_pert'] = costo_media_pert
+
         G.add_node(
             data['id'],
-            duracion=data['duration']["most_likely"],
-            title=f"Tarea {data['name']}<br>Duración: {data['duration']['most_likely']} días"
+            duracion=data['duration']["media_pert"],
+            title=f"Tarea {data['name']}<br>Duración: {data['duration']['media_pert']} días"
         )
         tasks_list[data['id']] = {
             'task': data['name'],
-            'BAC': (float(data['cost']['optimistic']) + 4*float(data['cost']['most_likely']) + float(data['cost']['pessimistic']) / 6)
+            'BAC': costo_media_pert
         }
         for dep in data.get("dependencies", []):
             G.add_edge(dep, data['id'])
