@@ -3,31 +3,31 @@
     "activities": [
         {
             "id": "A1",
-            "name": "Diseño",
+            "name": "Definición de requisitos",
             "duration": {
-                "optimistic": 2,
-                "most_likely": 4,
-                "pessimistic": 6
+                "optimistic": 4,
+                "most_likely": 5,
+                "pessimistic": 7
             },
             "cost": {
-                "optimistic": 500,
-                "most_likely": 800,
-                "pessimistic": 1000
+                "optimistic": 1300,
+                "most_likely": 1500,
+                "pessimistic": 1900
             },
             "dependencies": []
         },
         {
             "id": "A2",
-            "name": "Construcción",
+            "name": "Diseño de la interfaz(UI/UX)",
             "duration": {
-                "optimistic": 10,
-                "most_likely": 14,
-                "pessimistic": 20
+                "optimistic": 5,
+                "most_likely": 7,
+                "pessimistic": 10
             },
             "cost": {
-                "optimistic": 2000,
-                "most_likely": 2500,
-                "pessimistic": 3000
+                "optimistic": 1700,
+                "most_likely": 2000,
+                "pessimistic": 2600
             },
             "dependencies": [
                 "A1"
@@ -35,16 +35,16 @@
         },
         {
             "id": "A3",
-            "name": "Limpieza",
+            "name": "Diseño de la arquitectura del sistema",
             "duration": {
                 "optimistic": 5,
                 "most_likely": 6,
-                "pessimistic": 10
+                "pessimistic": 9
             },
             "cost": {
-                "optimistic": 100,
-                "most_likely": 150,
-                "pessimistic": 200
+                "optimistic": 1500,
+                "most_likely": 1800,
+                "pessimistic": 2400
             },
             "dependencies": [
                 "A1"
@@ -52,16 +52,16 @@
         },
         {
             "id": "A4",
-            "name": "Mantenimiento",
+            "name": "Configuración del entorno de desarrollo",
             "duration": {
-                "optimistic": 1,
-                "most_likely": 2,
-                "pessimistic": 3
+                "optimistic": 2,
+                "most_likely": 3,
+                "pessimistic": 4
             },
             "cost": {
-                "optimistic": 100,
-                "most_likely": 150,
-                "pessimistic": 200
+                "optimistic": 650,
+                "most_likely": 800,
+                "pessimistic": 1000
             },
             "dependencies": [
                 "A3"
@@ -69,19 +69,108 @@
         },
         {
             "id": "A5",
-            "name": "Entrega",
+            "name": "Desarrollo del módulo de autenticación",
             "duration": {
-                "optimistic": 1,
-                "most_likely": 2,
-                "pessimistic": 3
+                "optimistic": 6,
+                "most_likely": 8,
+                "pessimistic": 12
             },
             "cost": {
-                "optimistic": 100,
-                "most_likely": 150,
-                "pessimistic": 200
+                "optimistic": 2100,
+                "most_likely": 2500,
+                "pessimistic": 3300
             },
             "dependencies": [
-                "A2"
+                "A2",
+                "A4"
+            ]
+        },
+        {
+            "id": "A6",
+            "name": "Desarrollo del módulo de contenidos",
+            "duration": {
+                "optimistic": 8,
+                "most_likely": 10,
+                "pessimistic": 14
+            },
+            "cost": {
+                "optimistic": 2700,
+                "most_likely": 3200,
+                "pessimistic": 4100
+            },
+            "dependencies": [
+                "A2",
+                "A4"
+            ]
+        },
+        {
+            "id": "A7",
+            "name": "Integración de los módulos",
+            "duration": {
+                "optimistic": 4,
+                "most_likely": 5,
+                "pessimistic": 8
+            },
+            "cost": {
+                "optimistic": 1200,
+                "most_likely": 1500,
+                "pessimistic": 2100
+            },
+            "dependencies": [
+                "A5",
+                "A6"
+            ]
+        },
+        {
+            "id": "A8",
+            "name": "Pruebas de calidad (QA)",
+            "duration": {
+                "optimistic": 5,
+                "most_likely": 6,
+                "pessimistic": 9
+            },
+            "cost": {
+                "optimistic": 1500,
+                "most_likely": 1800,
+                "pessimistic": 2400
+            },
+            "dependencies": [
+                "A7"
+            ]
+        },
+        {
+            "id": "A9",
+            "name": "Documentación del sistema",
+            "duration": {
+                "optimistic": 3,
+                "most_likely": 4,
+                "pessimistic": 6
+            },
+            "cost": {
+                "optimistic": 800,
+                "most_likely": 1000,
+                "pessimistic": 1400
+            },
+            "dependencies": [
+                "A7"
+            ]
+        },
+        {
+            "id": "A10",
+            "name": "Despliegue en producción",
+            "duration": {
+                "optimistic": 2,
+                "most_likely": 3,
+                "pessimistic": 5
+            },
+            "cost": {
+                "optimistic": 950,
+                "most_likely": 1200,
+                "pessimistic": 1600
+            },
+            "dependencies": [
+                "A8",
+                "A9"
             ]
         }
     ]

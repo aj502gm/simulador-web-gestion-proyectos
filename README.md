@@ -10,14 +10,14 @@ Este proyecto consiste en un simulador web para el cumplimiento, métricas y des
    ```python
    pip install -r requirements.txt
    ```
+
 3. Ejecutar el comando para levantar el servidor web:
 
    ```python
    streamlit run app.py
    ```
 
-
-    4. Tras esto, se abrirá una pestaña del navegador en un puerto aleatorio disponible. Esperar a la carga del contenido y el aplicativo estará listo apra ser usado.
+   4. Tras esto, se abrirá una pestaña del navegador en un puerto aleatorio disponible. Esperar a la carga del contenido y el aplicativo estará listo apra ser usado.
 
 ## Descripción por archivo/carpeta
 
@@ -81,9 +81,8 @@ Este proyecto consiste en un simulador web para el cumplimiento, métricas y des
 
   - `plots.py` → Herramientas para visualización de resultados
   - `ui_evm.json` → Resultados de simulación.
-  - `ui_montecarlo.json` → Despliegue de resultados de la simulación de Monte Carlo 
+  - `ui_montecarlo.json` → Despliegue de resultados de la simulación de Monte Carlo
   - `visualizacion_pert` → Generador de grafos
-
 
 ## Tablero KanBan
 

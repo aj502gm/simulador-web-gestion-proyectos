@@ -23,9 +23,6 @@ EXPECTED_COLUMNS = [
 ]
 
 
-# TODO: Validar dependencias (no dependencias, circulares, que el grafo tenga fin, tareas con duracion validas)
-
-
 def validate_csv(df):
     """
     Valida un DataFrame según el formato esperado para el CSV del proyecto.

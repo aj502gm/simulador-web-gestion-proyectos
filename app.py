@@ -69,7 +69,9 @@ if "montecarlo_done" not in st.session_state:
 
 if critical_path and not st.session_state.montecarlo_done:
     # Ejecutar la simulación una sola vez
-    duraciones_result, costos_result = montecarlo.run_simulation(activities_json, critical_path)
+    duraciones_result, costos_result = montecarlo.run_simulation(
+        activities_json, critical_path
+    )
     st.session_state.duraciones_result = duraciones_result
     st.session_state.costos_result = costos_result
     st.session_state.montecarlo_done = True
@@ -77,19 +79,18 @@ if critical_path and not st.session_state.montecarlo_done:
 # Mostrar resultados solo si existen
 if st.session_state.montecarlo_done:
     ui_montecarlo.show_simulation_results(
-        st.session_state.duraciones_result, 
-        st.session_state.costos_result
+        st.session_state.duraciones_result, st.session_state.costos_result
     )
 
-    
+
 if st.session_state.tasks:
     evm_table(st.session_state.tasks)
 
 if "evm_totals" in st.session_state:
-    projection_results = montecarlo.run_projection_simulation(st.session_state.evm_totals)
-    ui_montecarlo.show_projection_results(
-        projection_results
+    projection_results = montecarlo.run_projection_simulation(
+        st.session_state.evm_totals
     )
+    ui_montecarlo.show_projection_results(projection_results)
 
 # EVM
 # if critical_path:
