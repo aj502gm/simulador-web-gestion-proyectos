@@ -1,8 +1,0 @@
-{
-    "simulations": [
-        { "run_id": 1, "total_duration": 16.5, "total_cost": 3150 },
-        { "run_id": 2, "total_duration": 17.1, "total_cost": 3200 }
-    ],
-    "expected_duration": 16.8,
-    "expected_cost": 3175
-}

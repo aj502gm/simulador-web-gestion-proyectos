@@ -1,6 +1,6 @@
 # Simulador de Proyectos con Riesgo y EVM
 
-Este proyecto consiste en un simulador web para el cumplimiento, métricas y desarrollo de proyectos. A continuación se detallan los pasos que deberá seguir para poder hacer uso del aplicativo y la instalación de las dependencias necesarias. De igual forma, se brinda una breve descripción del proyecto, recursos adicionales que puedan ser valioso y contacto
+Este proyecto consiste en un simulador web para el cumplimiento, métricas y desarrollo de proyectos. A continuación se detallan los pasos que deberá seguir para poder hacer uso del aplicativo y la instalación de las dependencias necesarias. De igual forma, se brinda una breve descripción del proyecto, recursos adicionales que puedan ser valioso y contacto.
 
 ## Preparación del ambiente, instalación de dependencias y ejecución del aplicativo
 
@@ -17,7 +17,9 @@ Este proyecto consiste en un simulador web para el cumplimiento, métricas y des
    streamlit run app.py
    ```
 
-   4. Tras esto, se abrirá una pestaña del navegador en un puerto aleatorio disponible. Esperar a la carga del contenido y el aplicativo estará listo apra ser usado.
+4. Tras esto, se abrirá una pestaña del navegador en un puerto aleatorio disponible. Esperar a la carga del contenido y el aplicativo estará listo apra ser usado.
+
+5. NOTA: El archivo .csv del CASO DE ESTUDIO propuesto se encuentra en data/project_input.csv
 
 ## Descripción por archivo/carpeta
 
@@ -26,63 +28,41 @@ Este proyecto consiste en un simulador web para el cumplimiento, métricas y des
 - **Rol:** Controlador principal de la aplicación Streamlit.
 - **Contenido:** Carga de páginas, manejo de navegación, llamado a funciones de lógica (Monte Carlo y EVM) y visualización de resultados.
 
-### 2. Carpeta `ui.py/`
-
-- **Rol:** Funciones reutilizables de interfaz gráfica.
-- **Contenido:** Formularios, botones, tablas, gráficos, widgets y otros elementos que se usan en distintas partes de la app.
-
-### 3. `montecarlo.py`
+### 2. `montecarlo.py`
 
 - **Rol:** Lógica de simulación de proyectos con incertidumbre usando el método de Monte Carlo.
 - **Contenido:** Funciones para procesar las actividades, generar duraciones/costos aleatorios, calcular distribuciones y promedios.
 
-### 4. `evm.py`
-
-- **Rol:** Cálculo de métricas de Valor Ganado (EVM).
-- **Contenido:** Funciones para calcular PV, EV, AC, SPI, CPI, EAC, ETC y estados de avance.
-
-### 5. `models.py`
-
-- **Rol:** Definir los **formatos estándar de datos** en JSON para que todos los módulos sean compatibles.
-- **Contenido:** Diccionarios o modelos que actúan como plantillas para entradas y salidas.
-
-### 6. Carpeta `data/`
+### 3. Carpeta `data/`
 
 - **Rol:** Guardar ejemplos reales para pruebas e integración, sin necesidad de estar ingresandolos manualmente.
 - **Archivos:**
+  - `example_input.csv` → .csv de ejemplo para el ingreso de actividades del proyecto.
+  - `project_input.csv` → .csv de CASO DE ESTUDIO para el ingreso de actividades del proyecto.
   - `project_input.json` → Actividades del proyecto.
-  - `montecarlo_output.json` → Resultados de simulación.
-  - `evm_input.json` → Avances y costos reales.
-  - `evm_output.json` → Métricas calculadas.
-  - `visualization.json` → Datos listos para gráficos.
 
-### 7. Carpeta `docs/`
-
-- **Rol:** Documentación interna del proyecto.
-- **Archivos:**
-  - `estructura_proyecto.md` → Este documento.
-
-### 8. `requirements.txt`
+### 4. `requirements.txt`
 
 - **Rol:** Lista de dependencias necesarias para correr el proyecto.
 - **Modo de uso:**
   - `Comando para alimentarlo` → pip freeze > requirements.txt
   - `Comando para instalar dependencias` → pip install -r requirements.txt
 
-### 9. `file_utils.py`
+### 5. `file_utils.py`
 
 - **Rol:** Manejo de archivos
 - **Contenido:** Funciones para guardar JSON y CSV; convertir CSV a JSON
 
-### 10. Carpeta `ui/`
+### 6. Carpeta `ui/`
 
 - **Rol:** Funciones reutilizables
 - **Archivos:**
 
   - `plots.py` → Herramientas para visualización de resultados
-  - `ui_evm.json` → Resultados de simulación.
   - `ui_montecarlo.json` → Despliegue de resultados de la simulación de Monte Carlo
-  - `visualizacion_pert` → Generador de grafos
+  - `visualizacion_pert` → Generador de grafos PERT del proyecto
+  - `metrics_table.py` → Tabla para solicitar y mostrar información del EVM, así como susresultados
+  - `ui.py` → Archivo principal para la interfaz de usuario
 
 ## Tablero KanBan
 

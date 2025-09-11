@@ -1,7 +1,0 @@
-{
-    "progress_date": "2025-08-15",
-    "actuals": [
-        { "activity_id": "A1", "percent_complete": 100, "actual_cost": 850 },
-        { "activity_id": "A2", "percent_complete": 50, "actual_cost": 1200 }
-    ]
-}

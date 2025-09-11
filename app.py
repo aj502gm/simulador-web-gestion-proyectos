@@ -1,12 +1,10 @@
 # Archivo principal del proyecto. Controla el flujo y la lógica de los elementos.
-import evm
 import montecarlo
 import os
 import pandas as pd
 import streamlit as st
 from ui.metrics_table import evm_table
 import ui.ui as ui
-import ui.ui_evm as ui_evm
 import ui.ui_montecarlo as ui_montecarlo
 from file_utils import get_data, convert_for_download
 
@@ -39,7 +37,7 @@ st.markdown(
 st.title("Simulador de Proyectos con Riesgo y EVM")
 
 # Formulario de entrada
-name, activities_json, critical_path = ui.project_input_form(load_from_data_csv=True)
+name, activities_json, critical_path = ui.project_input_form(load_from_data_csv=False)
 
 
 @st.fragment
@@ -91,9 +89,3 @@ if "evm_totals" in st.session_state:
         st.session_state.evm_totals
     )
     ui_montecarlo.show_projection_results(projection_results)
-
-# EVM
-# if critical_path:
-#    evm_results = evm.calculate_metrics(activities_json)
-#    ui_evm.evm_metrics_display(evm_results)
-#    pass
