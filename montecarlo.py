@@ -1,6 +1,6 @@
 import numpy as np
 
-simulaciones = 1000
+simulaciones = 5000
 
 
 def run_simulation(activities_json, critical_path):
